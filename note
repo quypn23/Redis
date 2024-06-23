@@ -1,10 +1,12 @@
 init:
     image: redis:latest
-    command: bash -c "sleep 30 && redis-cli --cluster create 172.20.0.2:7000 172.20.0.3:7001 172.20.0.4:7002 172.20.0.5:7003 172.20.0.6:7004 172.20.0.7:7005 --cluster-replicas 1"
+    command: bash -c "sleep 30 && redis-cli --cluster create redis-master1:6379 redis-master2:6380 redis-master3:6381 redis-slave-1:6379 redis-slave-2:6379 redis-slave-3:6379 --cluster-replicas 1"
     depends_on:
-      - redis-master
+      - redis-master1
+      - redis-master2
+      - redis-master3
       - redis-slave-1
       - redis-slave-2
-      - redis-sentinel
+      - redis-slave-3
     networks:
       - redis-net
