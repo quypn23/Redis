@@ -10,6 +10,7 @@ services:
     volumes:
       - redis-master-data:/data
       - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+      - /var/log/redis:/data/log/redis
     networks:
       redis-net:
         ipv4_address: 172.20.0.10
