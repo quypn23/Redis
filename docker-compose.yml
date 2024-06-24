@@ -9,7 +9,7 @@ services:
       - "6379:6379"
     volumes:
       - redis-master-data:/data
-      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
       - /var/log/redis:/data/log/redis
     networks:
       redis-net:
