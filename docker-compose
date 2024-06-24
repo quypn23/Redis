@@ -4,12 +4,12 @@ services:
   redis-master:
     image: redis:latest
     container_name: redis-master
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis-master.conf
     ports:
       - "6379:6379"
     volumes:
       - redis-master-data:/data
-      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-master.conf:/usr/local/etc/redis/redis-master.conf
       - /var/log/redis:/data/log/redis
     networks:
       redis-net:
@@ -18,10 +18,10 @@ services:
   redis-slave-1:
     image: redis:latest
     container_name: redis-slave-1
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis-slave.conf
     volumes:
       - redis-slave-data-1:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-slave.conf:/usr/local/etc/redis/redis-slave.conf
     networks:
       redis-net:
         ipv4_address: 172.20.0.11
@@ -31,10 +31,10 @@ services:
   redis-slave-2:
     image: redis:latest
     container_name: redis-slave-2
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis-slave.conf
     volumes:
       - redis-slave-data-2:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./redis-slave.conf:/usr/local/etc/redis/redis-slave.conf
     networks:
       redis-net:
         ipv4_address: 172.20.0.12
