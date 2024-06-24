@@ -18,7 +18,8 @@ services:
   redis-slave-1:
     image: redis:latest
     container_name: redis-slave-1
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server --slaveof redis-master 6379
+    #command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - redis-slave-data-1:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
@@ -31,7 +32,8 @@ services:
   redis-slave-2:
     image: redis:latest
     container_name: redis-slave-2
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server --slaveof redis-master 6379
+    #command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - redis-slave-data-2:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
