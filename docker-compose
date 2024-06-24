@@ -19,6 +19,8 @@ services:
     image: redis:latest
     container_name: redis-slave-1
     command: redis-server /usr/local/etc/redis/redis-slave.conf
+    ports:
+      - "6380:6379"
     volumes:
       - redis-slave-data-1:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis-slave.conf
@@ -32,6 +34,8 @@ services:
     image: redis:latest
     container_name: redis-slave-2
     command: redis-server /usr/local/etc/redis/redis-slave.conf
+    ports:
+      - "6381:6379"
     volumes:
       - redis-slave-data-2:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis-slave.conf
