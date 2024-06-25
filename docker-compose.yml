@@ -1,83 +1,57 @@
-version: '3.8'
+version: '3'
 
 services:
   redis-master:
-    image: redis:latest
+    image: redis
     container_name: redis-master
-    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     ports:
       - "6379:6379"
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.9
+
+  redis-slave:
+    image: redis
+    container_name: redis-slave
     volumes:
-      - redis-master-data:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-      - /var/log/redis:/data/log/redis
+      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     networks:
       redis-net:
         ipv4_address: 172.20.0.10
 
-  redis-slave-1:
-    image: redis:latest
-    container_name: redis-slave-1
-    command: redis-server --slaveof redis-master 6379
-    #command: redis-server /usr/local/etc/redis/redis.conf
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel1
     volumes:
-      - redis-slave-data-1:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel.conf"]
+    ports:
+      - "26379:26379"
     networks:
       redis-net:
         ipv4_address: 172.20.0.11
-    depends_on:
-      - redis-master
-
-  redis-slave-2:
-    image: redis:latest
-    container_name: redis-slave-2
-    command: redis-server --slaveof redis-master 6379
-    #command: redis-server /usr/local/etc/redis/redis.conf
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel2
     volumes:
-      - redis-slave-data-2:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel.conf"]
     networks:
       redis-net:
         ipv4_address: 172.20.0.12
-    depends_on:
-      - redis-master
-
-  redis-sentinel:
-    image: redis:latest
-    container_name: redis-sentinel
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf --sentinel
-    ports:
-      - "26379:26379"
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel3
     volumes:
-      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel.conf"]
     networks:
       redis-net:
         ipv4_address: 172.20.0.13
-    depends_on:
-      - redis-master
-      - redis-slave-1
-      - redis-slave-2
-
-  haproxy:
-    image: haproxy:latest
-    container_name: haproxy
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    ports:
-      - "6380:6379"
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.14
-    depends_on:
-      - redis-master
-      - redis-slave-1
-      - redis-slave-2
-
-volumes:
-  redis-master-data:
-  redis-slave-data-1:
-  redis-slave-data-2:
 
 networks:
   redis-net:
