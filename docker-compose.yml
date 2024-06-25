@@ -10,6 +10,10 @@ services:
     volumes:
       - redis-master-data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
+<<<<<<< HEAD:docker-compose.yml
+=======
+      - /var/log/redis:/data/log/redis
+>>>>>>> cb6c4b4d39552fe66cd9da4c52b55b48bf1f6b92:docker-compose.yml
     networks:
       redis-net:
         ipv4_address: 172.20.0.10
@@ -17,7 +21,8 @@ services:
   redis-slave-1:
     image: redis:latest
     container_name: redis-slave-1
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server --slaveof redis-master 6379
+    #command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - redis-slave-data-1:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
@@ -30,7 +35,8 @@ services:
   redis-slave-2:
     image: redis:latest
     container_name: redis-slave-2
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server --slaveof redis-master 6379
+    #command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - redis-slave-data-2:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
