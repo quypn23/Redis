@@ -1,2 +1,2 @@
-# Redis
-cluster
+# Redis cluster
+
