@@ -9,7 +9,7 @@ services:
       - "6379:6379"
     volumes:
       - ./redis-master-data:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./custom/master.conf:/usr/local/etc/redis/redis.conf
       - ./logs:/var/log/redis
     networks:
       redis-net:
@@ -21,7 +21,7 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis-slave-data-1:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./custom/slave.conf:/usr/local/etc/redis/redis.conf
       - ./logs:/var/log/redis
     networks:
       redis-net:
@@ -35,7 +35,7 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ./redis-slave-data-2:/data
-      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - ./custom/slave.conf:/usr/local/etc/redis/redis.conf
       - ./logs:/var/log/redis
     networks:
       redis-net:
