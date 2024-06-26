@@ -51,6 +51,7 @@ services:
       - "26379:26379"
     volumes:
       - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
     networks:
       redis-net:
         ipv4_address: 172.20.0.13
@@ -64,6 +65,7 @@ services:
     command: redis-sentinel /usr/local/etc/redis/sentinel.conf --sentinel
     volumes:
       - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
     networks:
       redis-net:
         ipv4_address: 172.20.0.14
@@ -73,6 +75,7 @@ services:
     command: redis-sentinel /usr/local/etc/redis/sentinel.conf --sentinel
     volumes:
       - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
     networks:
       redis-net:
         ipv4_address: 172.20.0.15
