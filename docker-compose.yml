@@ -8,8 +8,9 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis-master-data:/data
+      - ./redis-master-data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./logs:/var/log/redis
     networks:
       redis-net:
         ipv4_address: 172.20.0.10
@@ -19,7 +20,7 @@ services:
     container_name: redis-slave-1
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis-slave-data-1:/data
+      - ./redis-slave-data-1:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
     networks:
       redis-net:
@@ -32,7 +33,7 @@ services:
     container_name: redis-slave-2
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - redis-slave-data-2:/data
+      - ./redis-slave-data-2:/data
       - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
     networks:
       redis-net:
